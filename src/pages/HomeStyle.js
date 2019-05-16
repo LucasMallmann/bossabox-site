@@ -48,4 +48,8 @@ export const FormWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  input[type='checkbox'] {
+    margin: 0 5px 0 24px;
+  }
 `;
