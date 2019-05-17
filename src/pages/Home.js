@@ -1,24 +1,41 @@
-/* eslint-disable react/no-access-state-in-setstate */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/no-unused-state */
+/* eslint-disable react/prop-types */
 import React, { Component, Fragment } from 'react';
 import { Form } from '@rocketseat/unform';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as ToolsActions } from '../store/ducks/tools';
+import { Creators as ModalActions } from '../store/ducks/modal';
 
 import {
-  Header, Container, FormWrapper, FormInput,
+  Header, Container, FormWrapper, FormInput, AddButton,
 } from './HomeStyle';
+import Card from '../components/Card/Card';
 
 class Home extends Component {
   state = {
     tools: [],
-    checkboxChecked: false,
+    tagsOnly: false,
   };
 
+  componentDidMount() {
+    const { fetchRequest } = this.props;
+    fetchRequest('');
+  }
+
   handleSubmit = (data) => {
-    console.log(data);
+    const { fetchRequest } = this.props;
+    const { tagsOnly } = this.state;
+    let queryString = '';
+    if (data.tool) {
+      if (tagsOnly) queryString = `?tags_like=${data.tool}`;
+      else queryString = `?q=${data.tool}`;
+    }
+    fetchRequest(queryString);
   };
 
   render() {
+    const { tagsOnly } = this.state;
+    const { tools } = this.props;
     return (
       <Fragment>
         <Container>
@@ -29,22 +46,43 @@ class Home extends Component {
 
           <FormWrapper>
             <Form onSubmit={this.handleSubmit}>
-              <FormInput name="tool" placeholder="Search for a tool" />
+              <FormInput name="tool" placeholder="Search..." />
               <input
                 type="checkbox"
                 name="Update Password"
-                checked={this.state.checkboxChecked}
-                onChange={e => this.setState({ ...this.state, checkboxChecked: e.target.checked })}
+                checked={tagsOnly}
+                // eslint-disable-next-line react/no-access-state-in-setstate
+                onChange={e => this.setState({ ...this.state, tagsOnly: e.target.checked })}
               />
-              <span>search in tags only</span>
+              <small>search in tags only</small>
             </Form>
-
-            <button type="button">+ Add</button>
+            <AddButton type="button">Add</AddButton>
           </FormWrapper>
+
+          {tools.map(tool => (
+            <Card
+              key={tool.id}
+              id={tool.id}
+              title={tool.title}
+              description={tool.description}
+              link={tool.link}
+              tags={tool.tags}
+            />
+          ))}
         </Container>
       </Fragment>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+  tools: state.tools.data,
+  loading: state.tools.loading,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(ToolsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Home);

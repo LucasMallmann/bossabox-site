@@ -29,8 +29,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export const DefaultInput = styled(Input)`
+  font-family: inherit;
   background: #f5f4f6;
-  border: 1px solid #ebeaed;
+  border: 1px solid #dedce1;
   border-radius: 5px;
   padding: 8px 12px;
   outline: 0;
