@@ -31,9 +31,9 @@ export const Creators = {
     type: Types.REMOVE_REQUEST,
     payload: { id },
   }),
-  removeSuccess: data => ({
+  removeSuccess: id => ({
     type: Types.REMOVE_SUCCESS,
-    payload: { data },
+    payload: { id },
   }),
   fetchRequest: search => ({
     type: Types.FETCH_REQUEST,
@@ -77,14 +77,18 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: null,
       };
-
     case Types.ADD_REQUEST:
-      return setLoading(state);
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case Types.ADD_SUCCESS:
       return {
         ...state,
         data: [...state.data, action.payload.data],
         error: null,
+        loading: false,
       };
     case Types.REMOVE_REQUEST:
       return setLoading(state);

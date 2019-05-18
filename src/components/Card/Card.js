@@ -17,15 +17,20 @@ const Card = (props) => {
     fetchRequest(search);
   };
 
+  const handleDeleteClick = async (e) => {
+    const { showModal, id } = props;
+    await showModal(id);
+  };
+
   const {
-    id, title, link, description, tags, showModal,
+    title, link, description, tags,
   } = props;
   return (
     <Container>
       <div>
         <header>
           <a href={link}>{title}</a>
-          <Remove onClick={() => showModal(id)}>
+          <Remove onClick={handleDeleteClick}>
             <FontAwesomeIcon icon="times-circle" />
             <small>Remove</small>
           </Remove>

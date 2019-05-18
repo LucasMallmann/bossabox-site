@@ -10,10 +10,11 @@ import {
   Header, Container, FormWrapper, FormInput, AddButton,
 } from './HomeStyle';
 import Card from '../components/Card/Card';
+import AddTool from '../components/AddTool/AddTool';
+import RemoveTool from '../components/RemoveTool/RemoveTool';
 
 class Home extends Component {
   state = {
-    tools: [],
     tagsOnly: false,
   };
 
@@ -33,9 +34,20 @@ class Home extends Component {
     fetchRequest(queryString);
   };
 
+  onHandleAddTool = async () => {
+    const { addTool } = this.props;
+    await addTool();
+  };
+
   render() {
     const { tagsOnly } = this.state;
-    const { tools } = this.props;
+    const { tools, modal } = this.props;
+
+    let modalToRender = null;
+
+    if (modal.id && !modal.add) modalToRender = <RemoveTool />;
+    if (modal.add && !modal.id) modalToRender = <AddTool />;
+
     return (
       <Fragment>
         <Container>
@@ -56,7 +68,9 @@ class Home extends Component {
               />
               <small>search in tags only</small>
             </Form>
-            <AddButton type="button">Add</AddButton>
+            <AddButton onClick={this.onHandleAddTool} type="button">
+              Add
+            </AddButton>
           </FormWrapper>
 
           {tools.map(tool => (
@@ -69,6 +83,8 @@ class Home extends Component {
               tags={tool.tags}
             />
           ))}
+
+          {modalToRender}
         </Container>
       </Fragment>
     );
@@ -78,9 +94,16 @@ class Home extends Component {
 const mapStateToProps = state => ({
   tools: state.tools.data,
   loading: state.tools.loading,
+  modal: state.modal,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(ToolsActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    ...ToolsActions,
+    ...ModalActions,
+  },
+  dispatch,
+);
 
 export default connect(
   mapStateToProps,

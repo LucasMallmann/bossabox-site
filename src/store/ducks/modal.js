@@ -1,6 +1,7 @@
 export const Types = {
   HIDE: 'modal/HIDE',
   SHOW: 'modal/SHOW',
+  ADD_TOOL: 'modal/ADD_TOOL',
 };
 
 /**
@@ -14,6 +15,9 @@ export const Creators = {
   hideModal: () => ({
     type: Types.HIDE,
   }),
+  addTool: () => ({
+    type: Types.ADD_TOOL,
+  }),
 };
 
 /**
@@ -22,6 +26,7 @@ export const Creators = {
 const initialState = {
   visible: false,
   id: null,
+  add: false,
 };
 
 const modalReducer = (state = initialState, action) => {
@@ -30,6 +35,7 @@ const modalReducer = (state = initialState, action) => {
       return {
         ...state,
         visible: true,
+        add: false,
         id: action.payload.id,
       };
     case Types.HIDE:
@@ -37,6 +43,14 @@ const modalReducer = (state = initialState, action) => {
         ...state,
         visible: false,
         id: null,
+        add: false,
+      };
+    case Types.ADD_TOOL:
+      return {
+        ...state,
+        visible: true,
+        id: null,
+        add: true,
       };
     default:
       return state;

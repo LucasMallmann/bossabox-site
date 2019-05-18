@@ -7,10 +7,14 @@ export const Container = styled.div`
   width: 60%;
   margin: 3rem auto;
 
+  ${media.tablet`
+    width: auto;
+    padding: 0 1rem;
+  `}
+
   ${media.phone`
     width: auto;
     margin: 2rem 0;
-    padding: 0 1rem;
   `}
 `;
 

@@ -4,7 +4,7 @@ import { faCircleNotch, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import Home from './pages/Home';
 import GlobalStyle from './style';
 
-library.add(faTimesCircle);
+library.add(faTimesCircle, faCircleNotch);
 
 function App() {
   return (
