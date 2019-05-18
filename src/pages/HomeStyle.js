@@ -75,3 +75,15 @@ export const AddButton = styled.button`
     cursor: pointer;
   }
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+
+  svg {
+    color: #6554c0;
+    font-size: 60px;
+  }
+`;

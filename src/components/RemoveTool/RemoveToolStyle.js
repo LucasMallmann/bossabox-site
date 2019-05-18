@@ -12,7 +12,7 @@ export const Container = styled.div`
   }
 
   p {
-    color: #8f8a9b;
+    color: #424242;
     font-size: 16px;
   }
 `;

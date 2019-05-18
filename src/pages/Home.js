@@ -3,11 +3,12 @@ import React, { Component, Fragment } from 'react';
 import { Form } from '@rocketseat/unform';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Creators as ToolsActions } from '../store/ducks/tools';
 import { Creators as ModalActions } from '../store/ducks/modal';
 
 import {
-  Header, Container, FormWrapper, FormInput, AddButton,
+  Header, Container, FormWrapper, FormInput, AddButton, Loading,
 } from './HomeStyle';
 import Card from '../components/Card/Card';
 import AddTool from '../components/AddTool/AddTool';
@@ -41,7 +42,7 @@ class Home extends Component {
 
   render() {
     const { tagsOnly } = this.state;
-    const { tools, modal } = this.props;
+    const { tools, modal, loading } = this.props;
 
     let modalToRender = null;
 
@@ -73,17 +74,22 @@ class Home extends Component {
             </AddButton>
           </FormWrapper>
 
-          {tools.map(tool => (
-            <Card
-              key={tool.id}
-              id={tool.id}
-              title={tool.title}
-              description={tool.description}
-              link={tool.link}
-              tags={tool.tags}
-            />
-          ))}
-
+          {loading ? (
+            <Loading>
+              <FontAwesomeIcon icon="circle-notch" spin />
+            </Loading>
+          ) : (
+            tools.map(tool => (
+              <Card
+                key={tool.id}
+                id={tool.id}
+                title={tool.title}
+                description={tool.description}
+                link={tool.link}
+                tags={tool.tags}
+              />
+            ))
+          )}
           {modalToRender}
         </Container>
       </Fragment>

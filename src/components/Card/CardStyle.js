@@ -6,7 +6,6 @@ export const Container = styled.div`
   border-radius: 2px;
 
   margin: 2rem auto;
-  height: 150px;
 
   display: flex;
   flex-direction: column;
@@ -32,6 +31,9 @@ export const Container = styled.div`
     margin-top: 20px;
     font-size: 15px;
     line-height: 24px;
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 
   ul {
@@ -60,7 +62,7 @@ export const Remove = styled.div`
   }
   svg,
   small {
-    color: #cc0000;
+    color: #f95e5a;
     margin-right: 4px;
   }
   small {
